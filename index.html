@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch to .kat Converter</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: Link to a CSS file for styling -->
+</head>
+<body>
+    <header>
+        <h1>Scratch to .kat File Converter</h1>
+        <p>Upload your Scratch (.sb3) file to convert it to a .kat file.</p>
+    </header>
+
+    <main>
+        <form id="uploadForm" action="/convert" method="POST" enctype="multipart/form-data">
+            <label for="fileInput">Choose a Scratch file (.sb3):</label>
+            <input type="file" id="fileInput" name="scratchFile" accept=".sb3" required>
+            <button type="submit">Convert to .kat</button>
+        </form>
+
+        <div id="result" style="display: none;">
+            <h2>Download Your .kat File</h2>
+            <a id="downloadLink" href="#" download>Download .kat file</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Optional: Add JavaScript to handle form submission and display the download link
+        document.getElementById('uploadForm').onsubmit = function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+            // Here you would typically send the form data to your server for processing
+            // For example, using fetch:
+            fetch('/convert', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Assuming the server responds with the URL of the .kat file
+                document.getElementById('downloadLink').href = data.katFileUrl;
+                document.getElementById('result').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        };
+    </script>
+</body>
+</html>
